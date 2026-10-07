@@ -364,7 +364,7 @@
             </div>
         </section>
 
-        <!-- SECTION 6: INTERACTIVE RSVP -->
+        <!-- SECTION 6: RSVP -->
         <section id="rsvp-section" class="p-6">
             <div class="reveal glass-card-gold rounded-3xl p-6 text-center space-y-5 border border-gold/40 relative">
                 <div class="space-y-2">
@@ -375,47 +375,57 @@
                     <p class="text-xs font-semibold text-warmGray pt-1">Тойымызға келесіз бе?</p>
                 </div>
 
-                <form id="rsvp-form" action="https://formspree.io/f/xwlv1qyg" method="POST" novalidate class="space-y-4">
-                    <input type="hidden" name="subject" value="Жауап: Әбіл-Мансұрдың Тұсау кесер тойы">
-                    <div class="text-left">
-                        <label for="guest-name" class="block text-xs font-semibold text-charcoal mb-2">Аты-жөніңіз *</label>
-                        <input id="guest-name" name="name" type="text" autocomplete="name" placeholder="Аты-жөніңізді енгізіңіз" required class="w-full py-3.5 px-4 rounded-2xl bg-white border border-gold/30 text-sm text-charcoal outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all">
-                        <p id="name-error" class="hidden mt-2 text-xs text-red-600">Аты-жөніңізді енгізіңіз.</p>
+                <form id="rsvp-form" action="https://formspree.io/f/xwlv1qyg" method="POST" class="space-y-4 text-left" novalidate>
+                    <input type="hidden" name="subject" value="Тұсау кесер — жаңа жауап">
+
+                    <div>
+                        <label for="guest-name" class="block text-xs font-semibold text-charcoal mb-2">Аты-жөніңіз <span class="text-gold-dark">*</span></label>
+                        <input
+                            id="guest-name"
+                            name="name"
+                            type="text"
+                            autocomplete="name"
+                            required
+                            maxlength="100"
+                            placeholder="Аты-жөніңізді енгізіңіз"
+                            class="w-full px-4 py-3.5 rounded-2xl bg-white border border-gold/30 text-sm text-charcoal outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
+                        >
+                        <p id="name-error" class="hidden mt-2 text-[11px] text-red-600">Аты-жөніңізді енгізіңіз.</p>
                     </div>
 
-                    <fieldset class="space-y-3 text-left">
-                        <legend class="block text-xs font-semibold text-charcoal mb-2">Жауабыңыз *</legend>
-                        <label class="flex items-center gap-3 w-full py-3.5 px-4 rounded-2xl bg-white border border-gold/30 cursor-pointer hover:bg-gold/10 transition-all">
-                            <input type="radio" name="answer" value="Иә, міндетті түрде келемін" required class="accent-[#D4AF37]">
-                            <span class="text-xs sm:text-sm text-charcoal">Иә, міндетті түрде келемін! 🤍</span>
-                        </label>
-                        <label class="flex items-center gap-3 w-full py-3.5 px-4 rounded-2xl bg-white border border-gold/30 cursor-pointer hover:bg-gold/10 transition-all">
-                            <input type="radio" name="answer" value="Өкінішке қарай, келе алмаймын" required class="accent-[#D4AF37]">
-                            <span class="text-xs sm:text-sm text-charcoal">Өкінішке қарай, келе алмаймын</span>
-                        </label>
-                        <label class="flex items-center gap-3 w-full py-3.5 px-4 rounded-2xl bg-white border border-gold/30 cursor-pointer hover:bg-gold/10 transition-all">
-                            <input type="radio" name="answer" value="Әлі нақты айта алмаймын" required class="accent-[#D4AF37]">
-                            <span class="text-xs sm:text-sm text-charcoal">Әлі нақты айта алмаймын</span>
-                        </label>
-                        <p id="answer-error" class="hidden text-xs text-red-600">Жауаптардың бірін таңдаңыз.</p>
+                    <fieldset>
+                        <legend class="block text-xs font-semibold text-charcoal mb-2">Жауабыңыз <span class="text-gold-dark">*</span></legend>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 p-3 rounded-2xl bg-white border border-gold/20 cursor-pointer hover:border-gold/50 transition-all">
+                                <input type="radio" name="answer" value="Иә, міндетті түрде келемін" required class="accent-[#D4AF37]">
+                                <span class="text-xs text-charcoal">Иә, міндетті түрде келемін! 🤍</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-2xl bg-white border border-gold/20 cursor-pointer hover:border-gold/50 transition-all">
+                                <input type="radio" name="answer" value="Өкінішке қарай, келе алмаймын" class="accent-[#D4AF37]">
+                                <span class="text-xs text-charcoal">Өкінішке қарай, келе алмаймын</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-2xl bg-white border border-gold/20 cursor-pointer hover:border-gold/50 transition-all">
+                                <input type="radio" name="answer" value="Әлі нақты айта алмаймын" class="accent-[#D4AF37]">
+                                <span class="text-xs text-charcoal">Әлі нақты айта алмаймын</span>
+                            </label>
+                        </div>
+                        <p id="answer-error" class="hidden mt-2 text-[11px] text-red-600">Жауаптардың бірін таңдаңыз.</p>
                     </fieldset>
 
-                    <button id="rsvp-submit" type="submit" class="btn-gold w-full py-4 px-4 rounded-2xl font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                    <div id="rsvp-error" class="hidden p-3 rounded-2xl bg-red-50 border border-red-200 text-[11px] text-red-700"></div>
+                    <div id="rsvp-success" class="hidden p-5 rounded-2xl bg-white/90 border border-gold/40 text-center space-y-2">
+                        <div class="w-10 h-10 rounded-full bg-gold/20 text-gold-dark flex items-center justify-center mx-auto text-xl">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <p class="font-serif text-base font-bold text-charcoal">Жауабыңыз қабылданды! 🤍</p>
+                        <p class="text-xs text-warmGray">Сізді асыға күтеміз!</p>
+                    </div>
+
+                    <button id="rsvp-submit" type="submit" class="btn-gold w-full py-4 rounded-2xl font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
                         <i class="fas fa-paper-plane"></i>
                         <span>Жауапты жіберу</span>
                     </button>
-                    <p id="rsvp-error" class="hidden text-xs text-red-600">Жіберу кезінде қате болды. Қайта көріңіз.</p>
                 </form>
-
-                <div id="rsvp-thankyou" class="hidden p-5 rounded-2xl bg-white/90 border border-gold/40 space-y-3">
-                    <div class="w-10 h-10 rounded-full bg-gold/20 text-gold-dark flex items-center justify-center mx-auto text-xl">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <p id="rsvp-response-text" class="font-serif text-base font-bold text-charcoal leading-snug"></p>
-                    <button type="button" onclick="resetRSVP()" class="text-[11px] text-gold-dark underline font-medium hover:text-charcoal transition-colors">
-                        Жауапты өзгерту
-                    </button>
-                </div>
             </div>
         </section>
 
@@ -436,9 +446,7 @@
                 </svg>
             </div>
 
-            <div class="pt-1">
-                <p class="font-serif text-sm italic text-gold-dark tracking-wide">Powered by Madina ✦</p>
-            </div>
+            <p class="text-[10px] text-warmGray/70 tracking-widest uppercase">Powered by Madina ✦</p>
         </footer>
 
     </main>
@@ -497,25 +505,25 @@
         updateCountdown();
 
         /* ----------------------------------------------------
-         * 3. RSVP FORM / FORMSPREE
+         * 3. RSVP — FORMSPREE AJAX
          * ---------------------------------------------------- */
         const rsvpForm = document.getElementById('rsvp-form');
+        const rsvpSubmit = document.getElementById('rsvp-submit');
+        const rsvpError = document.getElementById('rsvp-error');
+        const rsvpSuccess = document.getElementById('rsvp-success');
         const nameInput = document.getElementById('guest-name');
         const nameError = document.getElementById('name-error');
         const answerError = document.getElementById('answer-error');
-        const rsvpError = document.getElementById('rsvp-error');
-        const submitButton = document.getElementById('rsvp-submit');
-        const thankYouBox = document.getElementById('rsvp-thankyou');
-        const responseText = document.getElementById('rsvp-response-text');
 
         rsvpForm.addEventListener('submit', async (event) => {
             event.preventDefault();
+
             nameError.classList.add('hidden');
             answerError.classList.add('hidden');
             rsvpError.classList.add('hidden');
 
             const name = nameInput.value.trim();
-            const selected = rsvpForm.querySelector('input[name="answer"]:checked');
+            const answer = rsvpForm.querySelector('input[name="answer"]:checked');
 
             if (!name) {
                 nameError.classList.remove('hidden');
@@ -523,13 +531,13 @@
                 return;
             }
 
-            if (!selected) {
+            if (!answer) {
                 answerError.classList.remove('hidden');
                 return;
             }
 
-            submitButton.disabled = true;
-            submitButton.querySelector('span').textContent = 'Жіберілуде...';
+            rsvpSubmit.disabled = true;
+            rsvpSubmit.querySelector('span').textContent = 'Жіберілуде...';
 
             try {
                 const response = await fetch(rsvpForm.action, {
@@ -538,46 +546,37 @@
                     headers: { 'Accept': 'application/json' }
                 });
 
-                let result = {};
-                try { result = await response.json(); } catch (_) {}
+                let data = {};
+                try { data = await response.json(); } catch (_) {}
 
                 if (!response.ok) {
-                    const serverMessage = result?.errors?.map(error => error.message).join(' ') || result?.error || `HTTP ${response.status}`;
-                    throw new Error(serverMessage);
+                    const message = data?.errors?.map(e => e.message).join(' ') || data?.error || 'Formspree жауапты қабылдамады.';
+                    throw new Error(message);
                 }
 
-                rsvpForm.classList.add('hidden');
-                thankYouBox.classList.remove('hidden');
+                rsvpForm.querySelectorAll('input').forEach(input => {
+                    if (input.type !== 'hidden') input.disabled = true;
+                });
+                rsvpSubmit.classList.add('hidden');
+                rsvpSuccess.classList.remove('hidden');
 
-                if (selected.value.startsWith('Иә')) {
-                    responseText.innerHTML = 'Келетініңізге қуаныштымыз! 🤍<br>Сізді асыға күтеміз!';
-                    if (typeof confetti === 'function') {
-                        confetti({ particleCount: 80, spread: 70, origin: { y: 0.7 }, colors: ['#D4AF37', '#F4E0A5', '#AA820A', '#FFFFFF'] });
-                    }
-                } else if (selected.value.startsWith('Өкінішке')) {
-                    responseText.innerHTML = 'Жауабыңызға рақмет!<br>Ақ тілегіңіз біз үшін қымбат 🤍';
-                } else {
-                    responseText.innerHTML = 'Жауабыңыз қабылданды 🤍<br>Нақты шешіміңізді кейін хабарлай аласыз.';
+                if (answer.value.includes('Иә') && typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 80,
+                        spread: 70,
+                        origin: { y: 0.7 },
+                        colors: ['#D4AF37', '#F4E0A5', '#AA820A', '#FFFFFF']
+                    });
                 }
             } catch (error) {
-                console.error('Formspree:', error);
-                rsvpError.textContent = 'Жіберу кезінде қате болды. Интернетті тексеріп, қайта көріңіз.';
+                console.error('RSVP error:', error);
+                rsvpError.textContent = 'Жауап жіберілмеді: ' + (error.message || 'сервер қатесі') + ' Қайта көріңіз.';
                 rsvpError.classList.remove('hidden');
-                submitButton.disabled = false;
-                submitButton.querySelector('span').textContent = 'Жауапты жіберу';
+            } finally {
+                rsvpSubmit.disabled = false;
+                rsvpSubmit.querySelector('span').textContent = 'Жауапты жіберу';
             }
         });
-
-        function resetRSVP() {
-            rsvpForm.reset();
-            rsvpForm.classList.remove('hidden');
-            thankYouBox.classList.add('hidden');
-            nameError.classList.add('hidden');
-            answerError.classList.add('hidden');
-            rsvpError.classList.add('hidden');
-            submitButton.disabled = false;
-            submitButton.querySelector('span').textContent = 'Жауапты жіберу';
-        }
 
         /* ----------------------------------------------------
          * 4. AUDIO TOGGLE LOGIC

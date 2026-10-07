@@ -436,7 +436,9 @@
                 </svg>
             </div>
 
-            <p class="text-[10px] text-warmGray/70 tracking-widest uppercase">Digital Invitation • 2026</p>
+            <div class="pt-1">
+                <p class="font-serif text-sm italic text-gold-dark tracking-wide">Powered by Madina ✦</p>
+            </div>
         </footer>
 
     </main>
@@ -533,27 +535,33 @@
                 const response = await fetch(rsvpForm.action, {
                     method: 'POST',
                     body: new FormData(rsvpForm),
-                    headers: { Accept: 'application/json' }
+                    headers: { 'Accept': 'application/json' }
                 });
 
-                if (!response.ok) throw new Error('Formspree error');
+                let result = {};
+                try { result = await response.json(); } catch (_) {}
 
-                const answer = selected.value;
-                document.getElementById('rsvp-form').classList.add('hidden');
+                if (!response.ok) {
+                    const serverMessage = result?.errors?.map(error => error.message).join(' ') || result?.error || `HTTP ${response.status}`;
+                    throw new Error(serverMessage);
+                }
+
+                rsvpForm.classList.add('hidden');
                 thankYouBox.classList.remove('hidden');
 
-                if (answer.startsWith('Иә')) {
+                if (selected.value.startsWith('Иә')) {
                     responseText.innerHTML = 'Келетініңізге қуаныштымыз! 🤍<br>Сізді асыға күтеміз!';
                     if (typeof confetti === 'function') {
                         confetti({ particleCount: 80, spread: 70, origin: { y: 0.7 }, colors: ['#D4AF37', '#F4E0A5', '#AA820A', '#FFFFFF'] });
                     }
-                } else if (answer.startsWith('Өкінішке')) {
+                } else if (selected.value.startsWith('Өкінішке')) {
                     responseText.innerHTML = 'Жауабыңызға рақмет!<br>Ақ тілегіңіз біз үшін қымбат 🤍';
                 } else {
                     responseText.innerHTML = 'Жауабыңыз қабылданды 🤍<br>Нақты шешіміңізді кейін хабарлай аласыз.';
                 }
             } catch (error) {
-                console.error(error);
+                console.error('Formspree:', error);
+                rsvpError.textContent = 'Жіберу кезінде қате болды. Интернетті тексеріп, қайта көріңіз.';
                 rsvpError.classList.remove('hidden');
                 submitButton.disabled = false;
                 submitButton.querySelector('span').textContent = 'Жауапты жіберу';

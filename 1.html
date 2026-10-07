@@ -1,1 +1,582 @@
+<!DOCTYPE html>
+<html lang="kk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Әбіл-Мансұрдың Тұсау кесер тойы — Шақыру</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FDFBF7',
+                        ivory: '#F9F5EC',
+                        champagne: '#F3EBDD',
+                        gold: {
+                            light: '#F4E0A5',
+                            DEFAULT: '#D4AF37',
+                            dark: '#AA820A',
+                            accent: '#C5A059'
+                        },
+                        charcoal: '#2C2A29',
+                        warmGray: '#6B6560'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['Montserrat', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+                        'spin-slow': 'spin 20s linear infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.6', filter: 'drop-shadow(0 0 15px rgba(212,175,55,0.4))' },
+                            '50%': { opacity: '1', filter: 'drop-shadow(0 0 25px rgba(212,175,55,0.8))' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styling for Premium Digital Invitation */
+        body {
+            background-color: #FDFBF7;
+            color: #2C2A29;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Gold Gradient Text */
+        .gold-text-gradient {
+            background: linear-gradient(135deg, #AA820A 0%, #D4AF37 40%, #F4E0A5 70%, #C5A059 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Gold Gradient Border */
+        .gold-border-gradient {
+            border-image: linear-gradient(135deg, #D4AF37, #F4E0A5, #C5A059) 1;
+        }
+
+        /* Luxury Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            box-shadow: 0 10px 30px -5px rgba(170, 130, 10, 0.08);
+        }
+
+        .glass-card-gold {
+            background: linear-gradient(135deg, rgba(255, 253, 248, 0.9), rgba(249, 243, 230, 0.85));
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            box-shadow: 0 15px 35px -5px rgba(212, 175, 55, 0.15);
+        }
+
+        /* Kazakh National Ornament SVG Pattern Background */
+        .ornament-bg {
+            background-image: radial-gradient(rgba(212, 175, 55, 0.12) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Smooth reveal animation classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Luxury Gold Button Styling */
+        .btn-gold {
+            background: linear-gradient(135deg, #D4AF37 0%, #C5A059 50%, #AA820A 100%);
+            color: #FFFFFF;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn-gold:active {
+            transform: translateY(1px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FDFBF7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen text-charcoal flex flex-col items-center justify-start antialiased">
+    <!-- GitHub Pages test -->
+
+    <!-- Audio Element (Ambient Traditional Background Music) -->
+    <audio id="bg-music" loop preload="auto">
+        <!-- Royalty-free soft acoustic melody suitable for Kazakh celebration -->
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=soft-ambient-111154.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Ambient Floating Sparkles Canvas -->
+    <canvas id="particles-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-60"></canvas>
+
+    <!-- Floating Audio Control Button -->
+    <button id="music-toggle" aria-label="Музыканы қосу/өшіру" onclick="toggleAudio()" class="fixed top-5 right-5 z-50 w-12 h-12 rounded-full glass-card flex items-center justify-center text-gold-dark shadow-lg border border-gold/40 hover:scale-105 transition-transform">
+        <i id="music-icon" class="fas fa-music text-lg"></i>
+    </button>
+
+    <!-- MAIN CONTAINER - Mobile First Enforced Layout -->
+    <main class="w-full max-w-md min-h-screen bg-cream relative z-10 shadow-2xl overflow-hidden my-0 sm:my-4 sm:rounded-[40px] border-0 sm:border-8 border-gold/20 flex flex-col">
+
+        <!-- SECTION 1: HERO / COVER -->
+        <section class="relative min-h-[90vh] flex flex-col justify-between items-center text-center p-6 pt-12 overflow-hidden ornament-bg">
+            
+            <!-- Top Kazakh National Ornament Frame -->
+            <div class="reveal active w-36 h-12 flex justify-center items-center opacity-80 mb-2">
+                <svg viewBox="0 0 200 60" class="w-full h-full fill-gold">
+                    <!-- Elegant SVG Kazakh Ornament (Qoshqar Muyoiz Variant) -->
+                    <path d="M100,5 C110,20 125,20 135,10 C145,0 160,5 160,20 C160,35 140,40 130,30 C125,25 120,25 115,35 C110,45 100,55 100,55 C100,55 90,45 85,35 C80,25 75,25 70,30 C60,40 40,35 40,20 C40,5 55,0 65,10 C75,20 90,20 100,5 Z" opacity="0.85"/>
+                    <circle cx="100" cy="20" r="4" class="fill-gold-light"/>
+                    <path d="M20,30 L50,30 M150,30 L180,30" stroke="#D4AF37" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <!-- Subtitle Header -->
+            <div class="reveal active space-y-2">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/30 text-gold-dark text-xs font-semibold tracking-widest uppercase">
+                    <span>✨ 1 ЖАС</span>
+                    <span class="text-gold/50">•</span>
+                    <span>ТҰСАУ КЕСЕР ✨</span>
+                </div>
+            </div>
+
+            <!-- Hero Main Visual Circle Frame -->
+            <div class="reveal active my-6 relative flex items-center justify-center">
+                <!-- Glowing Outer Ring -->
+                <div class="w-56 h-56 rounded-full border-2 border-dashed border-gold/40 animate-spin-slow absolute"></div>
+                <div class="w-48 h-48 rounded-full glass-card-gold p-3 flex flex-col items-center justify-center shadow-xl border-2 border-gold/50 relative z-10 animate-pulse-glow">
+                    <span class="font-serif italic text-gold-dark text-lg">Шақыру</span>
+                    <h1 class="font-serif text-3xl font-bold text-charcoal my-1 leading-tight tracking-wide">
+                        <span class="gold-text-gradient">Әбіл-Мансұрдың</span>
+                    </h1>
+                    <div class="w-12 h-0.5 bg-gold/60 my-1"></div>
+                    <span class="font-serif text-xs uppercase tracking-widest text-warmGray font-semibold">Тұсау кесер тойы</span>
+                </div>
+            </div>
+
+            <!-- Event Date & Venue Pill -->
+            <div class="reveal active w-full space-y-3 px-4">
+                <div class="glass-card rounded-2xl p-4 flex justify-around items-center border border-gold/30">
+                    <div class="text-center">
+                        <p class="text-[10px] text-warmGray uppercase tracking-wider">Күні</p>
+                        <p class="font-serif text-lg font-bold text-gold-dark">20.10.2026</p>
+                    </div>
+                    <div class="h-8 w-px bg-gold/30"></div>
+                    <div class="text-center">
+                        <p class="text-[10px] text-warmGray uppercase tracking-wider">Уақыты</p>
+                        <p class="font-serif text-lg font-bold text-gold-dark">18:00</p>
+                    </div>
+                    <div class="h-8 w-px bg-gold/30"></div>
+                    <div class="text-center">
+                        <p class="text-[10px] text-warmGray uppercase tracking-wider">Орны</p>
+                        <p class="font-serif text-sm font-bold text-charcoal">Greid_shyryn</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="reveal active pt-6 pb-2 flex flex-col items-center text-gold/70 animate-float">
+                <span class="text-[10px] uppercase tracking-widest text-warmGray mb-1">Төмен қарай жылжытыңыз</span>
+                <i class="fas fa-chevron-down text-sm text-gold"></i>
+            </div>
+        </section>
+
+        <!-- SECTION 2: INVITATION TEXT & POEM -->
+        <section class="p-6 relative ornament-bg border-t border-gold/10">
+            <div class="reveal glass-card rounded-3xl p-6 text-center space-y-6 relative overflow-hidden">
+                <!-- Corner Ornament Accents -->
+                <div class="absolute top-2 left-2 text-gold/30 text-xs">✦</div>
+                <div class="absolute top-2 right-2 text-gold/30 text-xs">✦</div>
+                <div class="absolute bottom-2 left-2 text-gold/30 text-xs">✦</div>
+                <div class="absolute bottom-2 right-2 text-gold/30 text-xs">✦</div>
+
+                <!-- Main Greeting -->
+                <div class="space-y-2">
+                    <h2 class="font-serif text-2xl font-bold text-gold-dark leading-snug">
+                        Ардақты ағайын,<br>құрметті туған-туыс, дос-жаран!
+                    </h2>
+                    <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto"></div>
+                </div>
+
+                <!-- Main Invitation Paragraph -->
+                <p class="text-sm text-charcoal leading-relaxed font-normal">
+                    Сіздерді <span class="font-semibold text-gold-dark">Әбіл-Мансұрдың</span> 1 жасқа толуына орай ұйымдастырылатын тұсау кесер тойына ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!
+                </p>
+
+                <!-- Poetic Verse Card -->
+                <div class="bg-champagne/40 rounded-2xl p-5 border border-gold/20 relative">
+                    <i class="fas fa-quote-left text-gold/20 text-2xl absolute top-3 left-3"></i>
+                    <p class="font-serif italic text-base text-charcoal/90 leading-relaxed pt-2">
+                        «Бала — өмірдің жалғасы,<br>
+                        бала — үйдің қуанышы.<br>
+                        Әбіл-Мансұрдың алғашқы қадамына<br>
+                        ақ жол тілеп, қуанышымызды бірге бөлісуге шақырамыз!»
+                    </p>
+                    <i class="fas fa-quote-right text-gold/20 text-2xl absolute bottom-3 right-3"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: EVENT DETAILS -->
+        <section class="p-6 space-y-4">
+            <div class="reveal text-center space-y-1 mb-4">
+                <span class="text-xs uppercase tracking-widest text-gold-dark font-semibold">Той ақпараты</span>
+                <h3 class="font-serif text-2xl font-bold text-charcoal">Мекенжай мен Уақыты</h3>
+            </div>
+
+            <!-- Details Cards Grid -->
+            <div class="grid grid-cols-2 gap-3">
+                <!-- Date Card -->
+                <div class="reveal glass-card p-4 rounded-2xl text-center space-y-2 border border-gold/20">
+                    <div class="w-10 h-10 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto text-lg">
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
+                    <p class="text-[11px] text-warmGray font-medium uppercase">Күні</p>
+                    <p class="font-serif font-bold text-base text-charcoal">20 қазан 2026 жыл</p>
+                </div>
+
+                <!-- Time Card -->
+                <div class="reveal glass-card p-4 rounded-2xl text-center space-y-2 border border-gold/20">
+                    <div class="w-10 h-10 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto text-lg">
+                        <i class="far fa-clock"></i>
+                    </div>
+                    <p class="text-[11px] text-warmGray font-medium uppercase">Уақыты</p>
+                    <p class="font-serif font-bold text-base text-charcoal">18:00</p>
+                </div>
+            </div>
+
+            <!-- Venue Info Card -->
+            <div class="reveal glass-card p-5 rounded-2xl text-center space-y-3 border border-gold/20">
+                <div class="w-12 h-12 rounded-full bg-gold/10 text-gold-dark flex items-center justify-center mx-auto text-xl">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div>
+                    <p class="text-[11px] text-warmGray font-medium uppercase">Ресторан / Холл</p>
+                    <h4 class="font-serif font-bold text-xl text-gold-dark">«Greid_shyryn» холы</h4>
+                    <p class="text-xs text-warmGray mt-1">Жамбыл даңғылы, 52/54</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: COUNTDOWN TIMER -->
+        <section class="p-6">
+            <div class="reveal glass-card-gold rounded-3xl p-6 text-center space-y-4 border border-gold/30">
+                <div class="space-y-1">
+                    <p class="text-xs uppercase tracking-widest text-warmGray font-semibold">Асыға күтеміз</p>
+                    <h3 class="font-serif text-2xl font-bold text-gold-dark">Тойға дейін қалды:</h3>
+                </div>
+
+                <!-- Countdown Units -->
+                <div class="grid grid-cols-4 gap-2 pt-2">
+                    <!-- Days -->
+                    <div class="bg-white/80 rounded-2xl p-2 shadow-sm border border-gold/20">
+                        <span id="timer-days" class="font-serif font-bold text-2xl text-charcoal block">00</span>
+                        <span class="text-[10px] text-warmGray uppercase">Күн</span>
+                    </div>
+                    <!-- Hours -->
+                    <div class="bg-white/80 rounded-2xl p-2 shadow-sm border border-gold/20">
+                        <span id="timer-hours" class="font-serif font-bold text-2xl text-charcoal block">00</span>
+                        <span class="text-[10px] text-warmGray uppercase">Сағат</span>
+                    </div>
+                    <!-- Minutes -->
+                    <div class="bg-white/80 rounded-2xl p-2 shadow-sm border border-gold/20">
+                        <span id="timer-minutes" class="font-serif font-bold text-2xl text-charcoal block">00</span>
+                        <span class="text-[10px] text-warmGray uppercase">Минут</span>
+                    </div>
+                    <!-- Seconds -->
+                    <div class="bg-white/80 rounded-2xl p-2 shadow-sm border border-gold/20">
+                        <span id="timer-seconds" class="font-serif font-bold text-2xl text-gold-dark block">00</span>
+                        <span class="text-[10px] text-warmGray uppercase">Секунд</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: MAP & LOCATION BUTTON -->
+        <section class="p-6 text-center space-y-4">
+            <div class="reveal glass-card rounded-3xl p-6 space-y-5 border border-gold/20">
+                <div class="space-y-1">
+                    <span class="text-xs uppercase tracking-widest text-gold-dark font-semibold">Карта & Навигация</span>
+                    <h3 class="font-serif text-2xl font-bold text-charcoal">Өткізілетін орны</h3>
+                    <p class="text-xs text-warmGray">«Greid_shyryn» холы, Тараз қ.</p>
+                </div>
+
+                <!-- Location Map Graphic Box -->
+                <div class="relative w-full h-36 rounded-2xl overflow-hidden border border-gold/30 bg-champagne flex flex-col items-center justify-center p-4 shadow-inner">
+                    <div class="w-12 h-12 rounded-full bg-gold/20 text-gold-dark flex items-center justify-center text-2xl mb-2 animate-bounce">
+                        <i class="fas fa-map-pinned"></i>
+                    </div>
+                    <span class="text-xs font-semibold text-charcoal">Тараз қаласы, Жамбыл даңғылы, 52/54</span>
+                    <span class="text-[10px] text-warmGray mt-0.5">2GIS арқылы бағыт алу</span>
+                </div>
+
+                <!-- 2GIS External Link Button -->
+                <a href="https://2gis.kz/taraz/geo/70000001053559270/71.377656,42.917097" target="_blank" rel="noopener noreferrer" class="btn-gold w-full py-4 rounded-2xl font-semibold text-sm flex items-center justify-center gap-2 group">
+                    <i class="fas fa-location-arrow text-base group-hover:rotate-45 transition-transform"></i>
+                    <span>📍 Мекенжайды көру (2GIS)</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- SECTION 6: INTERACTIVE RSVP -->
+        <section id="rsvp-section" class="p-6">
+            <div class="reveal glass-card-gold rounded-3xl p-6 text-center space-y-5 border border-gold/40 relative">
+                <div class="space-y-2">
+                    <span class="text-xs uppercase tracking-widest text-gold-dark font-bold">Жауап беру</span>
+                    <h3 class="font-serif text-xl font-bold text-charcoal leading-snug">
+                        Құрметті қонақ, тойымызға келетініңізді алдын ала хабарлауыңызды сұраймыз 🤍
+                    </h3>
+                    <p class="text-xs font-semibold text-warmGray pt-1">Тойымызға келесіз бе?</p>
+                </div>
+
+                <!-- RSVP Interactive Buttons Container -->
+                <div id="rsvp-options" class="space-y-3">
+                    <button onclick="submitRSVP('yes')" class="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-gold/10 text-charcoal font-medium text-xs sm:text-sm border border-gold/30 shadow-sm transition-all flex items-center justify-center gap-2 hover:border-gold">
+                        <span>Иә, міндетті түрде келемін! 🤍</span>
+                    </button>
+                    <button onclick="submitRSVP('no')" class="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-gold/10 text-charcoal font-medium text-xs sm:text-sm border border-gold/30 shadow-sm transition-all flex items-center justify-center gap-2 hover:border-gold">
+                        <span>Өкінішке қарай, келе алмаймын</span>
+                    </button>
+                    <button onclick="submitRSVP('maybe')" class="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-gold/10 text-charcoal font-medium text-xs sm:text-sm border border-gold/30 shadow-sm transition-all flex items-center justify-center gap-2 hover:border-gold">
+                        <span>Әлі нақты айта алмаймын</span>
+                    </button>
+                </div>
+
+                <!-- RSVP Thank You Confirmation Message Box -->
+                <div id="rsvp-thankyou" class="hidden p-5 rounded-2xl bg-white/90 border border-gold/40 space-y-3 animate-fade-in">
+                    <div class="w-10 h-10 rounded-full bg-gold/20 text-gold-dark flex items-center justify-center mx-auto text-xl">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <p id="rsvp-response-text" class="font-serif text-base font-bold text-charcoal leading-snug"></p>
+                    <button onclick="resetRSVP()" class="text-[11px] text-gold-dark underline font-medium hover:text-charcoal transition-colors">
+                        Жауапты өзгерту
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: FOOTER & CLOSING -->
+        <footer class="p-8 text-center space-y-6 ornament-bg border-t border-gold/20 mt-auto">
+            <div class="reveal space-y-3">
+                <p class="font-serif text-2xl font-bold text-gold-dark">Сіздерді асыға күтеміз!</p>
+                <div class="w-20 h-0.5 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto"></div>
+                <p class="font-serif italic text-base text-charcoal font-medium">
+                    Ізгі ниетпен, Әбіл-Мансұрдың отбасы 🤍
+                </p>
+            </div>
+
+            <!-- Bottom Kazakh Ornament Accent -->
+            <div class="reveal w-28 h-8 mx-auto opacity-70">
+                <svg viewBox="0 0 200 60" class="w-full h-full fill-gold">
+                    <path d="M100,55 C110,40 125,40 135,50 C145,60 160,55 160,40 C160,25 140,20 130,30 C125,35 120,35 115,25 C110,15 100,5 100,5 C100,5 90,15 85,25 C80,35 75,35 70,30 C60,20 40,25 40,40 C40,55 55,60 65,50 C75,40 90,40 100,55 Z"/>
+                </svg>
+            </div>
+
+            <p class="text-[10px] text-warmGray/70 tracking-widest uppercase">Digital Invitation • 2026</p>
+        </footer>
+
+    </main>
+
+    <script>
+        /* ----------------------------------------------------
+         * 1. REVEAL ANIMATIONS ON SCROLL (IntersectionObserver)
+         * ---------------------------------------------------- */
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                threshold: 0.15,
+                rootMargin: '0px'
+            };
+
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+
+        /* ----------------------------------------------------
+         * 2. COUNTDOWN TIMER LOGIC
+         * Target: October 20, 2026 18:00:00 (Local / GMT+5)
+         * ---------------------------------------------------- */
+        const targetDate = new Date('2026-10-20T18:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('timer-days').innerText = String(days).padStart(2, '0');
+                document.getElementById('timer-hours').innerText = String(hours).padStart(2, '0');
+                document.getElementById('timer-minutes').innerText = String(minutes).padStart(2, '0');
+                document.getElementById('timer-seconds').innerText = String(seconds).padStart(2, '0');
+            } else {
+                document.getElementById('timer-days').innerText = '00';
+                document.getElementById('timer-hours').innerText = '00';
+                document.getElementById('timer-minutes').innerText = '00';
+                document.getElementById('timer-seconds').innerText = '00';
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        /* ----------------------------------------------------
+         * 3. RSVP INTERACTIVE BUTTONS & CONFETTI
+         * ---------------------------------------------------- */
+        function submitRSVP(option) {
+            const optionsContainer = document.getElementById('rsvp-options');
+            const thankYouBox = document.getElementById('rsvp-thankyou');
+            const responseText = document.getElementById('rsvp-response-text');
+
+            optionsContainer.classList.add('hidden');
+            thankYouBox.classList.remove('hidden');
+
+            if (option === 'yes') {
+                responseText.innerHTML = "Келетініңізге қуаныштымыз! 🤍<br>Сізді асыға күтеміз!";
+                // Fire celebratory confetti for positive RSVP
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 80,
+                        spread: 70,
+                        origin: { y: 0.7 },
+                        colors: ['#D4AF37', '#F4E0A5', '#AA820A', '#FFFFFF']
+                    });
+                }
+            } else if (option === 'no') {
+                responseText.innerHTML = "Жауабыңызға рақмет!<br>Ақ тілегіңіз біз үшін қымбат 🤍";
+            } else if (option === 'maybe') {
+                responseText.innerHTML = "Жақсы, нақты шешіміңізді кейін хабарлай аласыз 🤍";
+            }
+        }
+
+        function resetRSVP() {
+            document.getElementById('rsvp-options').classList.remove('hidden');
+            document.getElementById('rsvp-thankyou').classList.add('hidden');
+        }
+
+        /* ----------------------------------------------------
+         * 4. AUDIO TOGGLE LOGIC
+         * ---------------------------------------------------- */
+        let isPlaying = false;
+        const audio = document.getElementById('bg-music');
+        const musicIcon = document.getElementById('music-icon');
+
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                musicIcon.className = 'fas fa-music text-lg';
+            } else {
+                audio.play().then(() => {
+                    musicIcon.className = 'fas fa-pause text-lg text-gold-dark';
+                }).catch(err => {
+                    console.log('Audio playback prevented:', err);
+                });
+            }
+            isPlaying = !isPlaying;
+        }
+
+        /* ----------------------------------------------------
+         * 5. PARTICLES CANVAS (Gold Light Sparkles)
+         * ---------------------------------------------------- */
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const particles = Array.from({ length: 25 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2.5 + 0.5,
+            speedY: -(Math.random() * 0.4 + 0.1),
+            speedX: Math.random() * 0.2 - 0.1,
+            opacity: Math.random() * 0.5 + 0.2
+        }));
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.y += p.speedY;
+                p.x += p.speedX;
+
+                if (p.y < 0) p.y = canvas.height;
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+
+                ctx.fillStyle = `rgba(212, 175, 55, ${p.opacity})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+    </script>
+</body>
+</html>
 

@@ -146,7 +146,6 @@
     </style>
 </head>
 <body class="relative min-h-screen text-charcoal flex flex-col items-center justify-start antialiased">
-    <!-- GitHub Pages test -->
 
     <!-- Audio Element (Ambient Traditional Background Music) -->
     <audio id="bg-music" loop preload="auto">
@@ -376,26 +375,44 @@
                     <p class="text-xs font-semibold text-warmGray pt-1">Тойымызға келесіз бе?</p>
                 </div>
 
-                <!-- RSVP Interactive Buttons Container -->
-                <div id="rsvp-options" class="space-y-3">
-                    <button onclick="submitRSVP('yes')" class="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-gold/10 text-charcoal font-medium text-xs sm:text-sm border border-gold/30 shadow-sm transition-all flex items-center justify-center gap-2 hover:border-gold">
-                        <span>Иә, міндетті түрде келемін! 🤍</span>
-                    </button>
-                    <button onclick="submitRSVP('no')" class="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-gold/10 text-charcoal font-medium text-xs sm:text-sm border border-gold/30 shadow-sm transition-all flex items-center justify-center gap-2 hover:border-gold">
-                        <span>Өкінішке қарай, келе алмаймын</span>
-                    </button>
-                    <button onclick="submitRSVP('maybe')" class="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-gold/10 text-charcoal font-medium text-xs sm:text-sm border border-gold/30 shadow-sm transition-all flex items-center justify-center gap-2 hover:border-gold">
-                        <span>Әлі нақты айта алмаймын</span>
-                    </button>
-                </div>
+                <form id="rsvp-form" action="https://formspree.io/f/xwlv1qyg" method="POST" novalidate class="space-y-4">
+                    <input type="hidden" name="subject" value="Жауап: Әбіл-Мансұрдың Тұсау кесер тойы">
+                    <div class="text-left">
+                        <label for="guest-name" class="block text-xs font-semibold text-charcoal mb-2">Аты-жөніңіз *</label>
+                        <input id="guest-name" name="name" type="text" autocomplete="name" placeholder="Аты-жөніңізді енгізіңіз" required class="w-full py-3.5 px-4 rounded-2xl bg-white border border-gold/30 text-sm text-charcoal outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all">
+                        <p id="name-error" class="hidden mt-2 text-xs text-red-600">Аты-жөніңізді енгізіңіз.</p>
+                    </div>
 
-                <!-- RSVP Thank You Confirmation Message Box -->
-                <div id="rsvp-thankyou" class="hidden p-5 rounded-2xl bg-white/90 border border-gold/40 space-y-3 animate-fade-in">
+                    <fieldset class="space-y-3 text-left">
+                        <legend class="block text-xs font-semibold text-charcoal mb-2">Жауабыңыз *</legend>
+                        <label class="flex items-center gap-3 w-full py-3.5 px-4 rounded-2xl bg-white border border-gold/30 cursor-pointer hover:bg-gold/10 transition-all">
+                            <input type="radio" name="answer" value="Иә, міндетті түрде келемін" required class="accent-[#D4AF37]">
+                            <span class="text-xs sm:text-sm text-charcoal">Иә, міндетті түрде келемін! 🤍</span>
+                        </label>
+                        <label class="flex items-center gap-3 w-full py-3.5 px-4 rounded-2xl bg-white border border-gold/30 cursor-pointer hover:bg-gold/10 transition-all">
+                            <input type="radio" name="answer" value="Өкінішке қарай, келе алмаймын" required class="accent-[#D4AF37]">
+                            <span class="text-xs sm:text-sm text-charcoal">Өкінішке қарай, келе алмаймын</span>
+                        </label>
+                        <label class="flex items-center gap-3 w-full py-3.5 px-4 rounded-2xl bg-white border border-gold/30 cursor-pointer hover:bg-gold/10 transition-all">
+                            <input type="radio" name="answer" value="Әлі нақты айта алмаймын" required class="accent-[#D4AF37]">
+                            <span class="text-xs sm:text-sm text-charcoal">Әлі нақты айта алмаймын</span>
+                        </label>
+                        <p id="answer-error" class="hidden text-xs text-red-600">Жауаптардың бірін таңдаңыз.</p>
+                    </fieldset>
+
+                    <button id="rsvp-submit" type="submit" class="btn-gold w-full py-4 px-4 rounded-2xl font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Жауапты жіберу</span>
+                    </button>
+                    <p id="rsvp-error" class="hidden text-xs text-red-600">Жіберу кезінде қате болды. Қайта көріңіз.</p>
+                </form>
+
+                <div id="rsvp-thankyou" class="hidden p-5 rounded-2xl bg-white/90 border border-gold/40 space-y-3">
                     <div class="w-10 h-10 rounded-full bg-gold/20 text-gold-dark flex items-center justify-center mx-auto text-xl">
                         <i class="fas fa-heart"></i>
                     </div>
                     <p id="rsvp-response-text" class="font-serif text-base font-bold text-charcoal leading-snug"></p>
-                    <button onclick="resetRSVP()" class="text-[11px] text-gold-dark underline font-medium hover:text-charcoal transition-colors">
+                    <button type="button" onclick="resetRSVP()" class="text-[11px] text-gold-dark underline font-medium hover:text-charcoal transition-colors">
                         Жауапты өзгерту
                     </button>
                 </div>
@@ -478,37 +495,80 @@
         updateCountdown();
 
         /* ----------------------------------------------------
-         * 3. RSVP INTERACTIVE BUTTONS & CONFETTI
+         * 3. RSVP FORM / FORMSPREE
          * ---------------------------------------------------- */
-        function submitRSVP(option) {
-            const optionsContainer = document.getElementById('rsvp-options');
-            const thankYouBox = document.getElementById('rsvp-thankyou');
-            const responseText = document.getElementById('rsvp-response-text');
+        const rsvpForm = document.getElementById('rsvp-form');
+        const nameInput = document.getElementById('guest-name');
+        const nameError = document.getElementById('name-error');
+        const answerError = document.getElementById('answer-error');
+        const rsvpError = document.getElementById('rsvp-error');
+        const submitButton = document.getElementById('rsvp-submit');
+        const thankYouBox = document.getElementById('rsvp-thankyou');
+        const responseText = document.getElementById('rsvp-response-text');
 
-            optionsContainer.classList.add('hidden');
-            thankYouBox.classList.remove('hidden');
+        rsvpForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            nameError.classList.add('hidden');
+            answerError.classList.add('hidden');
+            rsvpError.classList.add('hidden');
 
-            if (option === 'yes') {
-                responseText.innerHTML = "Келетініңізге қуаныштымыз! 🤍<br>Сізді асыға күтеміз!";
-                // Fire celebratory confetti for positive RSVP
-                if (typeof confetti === 'function') {
-                    confetti({
-                        particleCount: 80,
-                        spread: 70,
-                        origin: { y: 0.7 },
-                        colors: ['#D4AF37', '#F4E0A5', '#AA820A', '#FFFFFF']
-                    });
-                }
-            } else if (option === 'no') {
-                responseText.innerHTML = "Жауабыңызға рақмет!<br>Ақ тілегіңіз біз үшін қымбат 🤍";
-            } else if (option === 'maybe') {
-                responseText.innerHTML = "Жақсы, нақты шешіміңізді кейін хабарлай аласыз 🤍";
+            const name = nameInput.value.trim();
+            const selected = rsvpForm.querySelector('input[name="answer"]:checked');
+
+            if (!name) {
+                nameError.classList.remove('hidden');
+                nameInput.focus();
+                return;
             }
-        }
+
+            if (!selected) {
+                answerError.classList.remove('hidden');
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.querySelector('span').textContent = 'Жіберілуде...';
+
+            try {
+                const response = await fetch(rsvpForm.action, {
+                    method: 'POST',
+                    body: new FormData(rsvpForm),
+                    headers: { Accept: 'application/json' }
+                });
+
+                if (!response.ok) throw new Error('Formspree error');
+
+                const answer = selected.value;
+                document.getElementById('rsvp-form').classList.add('hidden');
+                thankYouBox.classList.remove('hidden');
+
+                if (answer.startsWith('Иә')) {
+                    responseText.innerHTML = 'Келетініңізге қуаныштымыз! 🤍<br>Сізді асыға күтеміз!';
+                    if (typeof confetti === 'function') {
+                        confetti({ particleCount: 80, spread: 70, origin: { y: 0.7 }, colors: ['#D4AF37', '#F4E0A5', '#AA820A', '#FFFFFF'] });
+                    }
+                } else if (answer.startsWith('Өкінішке')) {
+                    responseText.innerHTML = 'Жауабыңызға рақмет!<br>Ақ тілегіңіз біз үшін қымбат 🤍';
+                } else {
+                    responseText.innerHTML = 'Жауабыңыз қабылданды 🤍<br>Нақты шешіміңізді кейін хабарлай аласыз.';
+                }
+            } catch (error) {
+                console.error(error);
+                rsvpError.classList.remove('hidden');
+                submitButton.disabled = false;
+                submitButton.querySelector('span').textContent = 'Жауапты жіберу';
+            }
+        });
 
         function resetRSVP() {
-            document.getElementById('rsvp-options').classList.remove('hidden');
-            document.getElementById('rsvp-thankyou').classList.add('hidden');
+            rsvpForm.reset();
+            rsvpForm.classList.remove('hidden');
+            thankYouBox.classList.add('hidden');
+            nameError.classList.add('hidden');
+            answerError.classList.add('hidden');
+            rsvpError.classList.add('hidden');
+            submitButton.disabled = false;
+            submitButton.querySelector('span').textContent = 'Жауапты жіберу';
         }
 
         /* ----------------------------------------------------

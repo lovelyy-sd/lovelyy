@@ -375,7 +375,7 @@
                     <p class="text-xs font-semibold text-warmGray pt-1">Тойымызға келесіз бе?</p>
                 </div>
 
-                <form id="rsvp-form" action="https://formspree.io/f/xwlv1qyg" method="POST" class="space-y-4 text-left" novalidate>
+                <form id="rsvp-form" method="POST" class="space-y-4 text-left" novalidate>
                     <input type="hidden" name="subject" value="Тұсау кесер — жаңа жауап">
 
                     <div>
@@ -451,7 +451,13 @@
 
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
     <script>
+        emailjs.init({
+            publicKey: "F32BtOlKhXcdSyOSk"
+        });
+
         /* ----------------------------------------------------
          * 1. REVEAL ANIMATIONS ON SCROLL (IntersectionObserver)
          * ---------------------------------------------------- */
@@ -505,7 +511,7 @@
         updateCountdown();
 
         /* ----------------------------------------------------
-         * 3. RSVP — FORMSPREE AJAX
+         * 3. RSVP — EMAILJS
          * ---------------------------------------------------- */
         const rsvpForm = document.getElementById('rsvp-form');
         const rsvpSubmit = document.getElementById('rsvp-submit');
@@ -540,19 +546,11 @@
             rsvpSubmit.querySelector('span').textContent = 'Жіберілуде...';
 
             try {
-                const response = await fetch(rsvpForm.action, {
-                    method: 'POST',
-                    body: new FormData(rsvpForm),
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                let data = {};
-                try { data = await response.json(); } catch (_) {}
-
-                if (!response.ok) {
-                    const message = data?.errors?.map(e => e.message).join(' ') || data?.error || 'Formspree жауапты қабылдамады.';
-                    throw new Error(message);
-                }
+                await emailjs.sendForm(
+                    'service_s21hxhv',
+                    'template_6u7ocnk',
+                    rsvpForm
+                );
 
                 rsvpForm.querySelectorAll('input').forEach(input => {
                     if (input.type !== 'hidden') input.disabled = true;
@@ -569,8 +567,16 @@
                     });
                 }
             } catch (error) {
-                console.error('RSVP error:', error);
-                rsvpError.textContent = 'Жауап жіберілмеді: ' + (error.message || 'сервер қатесі') + ' Қайта көріңіз.';
+                console.error('EmailJS RSVP error:', error);
+                let message = 'Не удалось отправить ответ. Попробуйте ещё раз.';
+
+                if (error && error.text) {
+                    message = error.text;
+                } else if (error && error.message) {
+                    message = error.message;
+                }
+
+                rsvpError.textContent = 'Жауап жіберілмеді: ' + message;
                 rsvpError.classList.remove('hidden');
             } finally {
                 rsvpSubmit.disabled = false;
